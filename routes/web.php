@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -15,3 +16,4 @@ Route::get('/register', function(){
 });
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
 Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+Route::post('/register', [RegisterController::class, 'store'])->name('register');
