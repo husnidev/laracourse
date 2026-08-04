@@ -17,7 +17,7 @@
                 </a>
             </li>
 
-            {{-- @if(Auth::user()->role == 'admin' || auth()->user()->role == 'teacher') --}}
+            @if(Auth::user()->role == 'admin' || auth()->user()->role == 'teacher')
             <li>
                 <a href="/modules/courses.php" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'courses.php' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
                     <i class="fas fa-book"></i>
@@ -36,9 +36,9 @@
                     <span>Siswa</span>
                 </a>
             </li>
-            {{-- @endif --}}
+            @endif
 
-            {{-- @if(Auth::user()->role == 'student') --}}
+            @if(Auth::user()->role == 'student')
             <li>
                 <a href="/modules/browse-courses.php" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'browse-courses.php' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
                     <i class="fas fa-search"></i>
@@ -57,19 +57,19 @@
                     <span>Sertifikat</span>
                 </a>
             </li>
-            {{-- @endif --}}
+            @endif
 
-            {{-- @if(Auth::user()->role == 'admin') --}}
+            @if(Auth::user()->role == 'admin')
             <li class="pt-4 pb-1">
                 <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-3">Admin</span>
             </li>
             <li>
-                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'users.php' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
+                <a href="{{ route('users.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'users.php' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
                     <i class="fas fa-user-cog"></i>
                     <span>Pengguna</span>
                 </a>
             </li>
-            {{-- @endif --}}
+            @endif
         </ul>
     </nav>
 </aside>
