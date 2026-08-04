@@ -20,7 +20,8 @@ Route::post('/register', [RegisterController::class, 'store'])->name('register')
 Route::middleware('auth')->group(function () {
     // Define authenticated routes here
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('users', UserController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('users', UserController::class)->only(['index', 'store', 'update']);
     Route::post('users/{user}/update_status', [UserController::class, 'update_status'])->name('users.update_status');
     Route::get('users/{id}/delete', [UserController::class, 'delete'])->name('users.delete');
+    Route::post('users/bulk-delete', [UserController::class, 'bulkDelete'])->name('users.bulkDelete');
 });
