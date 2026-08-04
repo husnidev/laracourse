@@ -9,7 +9,9 @@
             <i class="fas fa-plus mr-2"></i>Tambah Pengguna
         </button>
     </div>
-
+    @if(session('success'))
+        <div class="flash-message bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">{{ session('success') }}</div>
+    @endif
     <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 mb-6">
         <form method="GET" class="flex flex-col md:flex-row gap-4">
             <input type="text" name="search" value="<?= $search ?>" placeholder="Cari nama atau email..."
