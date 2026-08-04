@@ -49,11 +49,20 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'Status pengguna berhasil diperbarui.');
     }
+
     public function delete($id)
     {
         $user = User::find($id);
         $user->delete();
         
         return redirect()->route('users.index')->with('success', 'Berhasil di hapus!');
+    }
+
+    public function bulkDelete (Request $request)
+    {
+        $userIds = $request->input('ids', []);
+        User::whereIn('id', $userIds)->delete();
+
+        return redirect()->route('users.index')->with('success', 'Pengguna berhasil dihapus.');
     }
 }

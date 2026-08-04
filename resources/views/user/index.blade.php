@@ -33,8 +33,8 @@
         <p class="text-gray-500">Tidak ada pengguna ditemukan</p>
     </div>
     <?php else: ?>
-    <form id="bulkForm" method="POST">
-        <input type="hidden" name="action" value="bulk_delete">
+    <form id="bulkForm" method="POST" action="{{ route('users.bulkDelete') }}">
+        @csrf
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div id="bulkActions" class="hidden px-6 py-3 bg-indigo-50 border-b border-indigo-100 flex items-center justify-between">
                 <span class="text-sm text-indigo-700"><span id="selectedCount">0</span> pengguna dipilih</span>
