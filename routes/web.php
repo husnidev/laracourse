@@ -22,4 +22,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('users', UserController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::post('users/{user}/update_status', [UserController::class, 'update_status'])->name('users.update_status');
+    Route::get('users/{id}/delete', [UserController::class, 'delete'])->name('users.delete');
 });
