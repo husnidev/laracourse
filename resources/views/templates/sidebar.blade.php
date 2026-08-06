@@ -25,7 +25,7 @@
                 </a>
             </li>
             <li>
-                <a href="/modules/categories.php" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'categories.php' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
+                <a href="{{ route('categories.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'categories.php' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
                     <i class="fas fa-tags"></i>
                     <span>Kategori</span>
                 </a>

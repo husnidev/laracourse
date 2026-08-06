@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/login', function(){
     return view('login');
@@ -24,4 +25,6 @@ Route::middleware('auth')->group(function () {
     Route::post('users/{user}/update_status', [UserController::class, 'update_status'])->name('users.update_status');
     Route::get('users/{id}/delete', [UserController::class, 'delete'])->name('users.delete');
     Route::post('users/bulk-delete', [UserController::class, 'bulkDelete'])->name('users.bulkDelete');
+    // categories routes
+    Route::resource('categories', CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
 });
