@@ -50,6 +50,7 @@
             <div id="editCat<?= $cat['id'] ?>" class="hidden mt-4 pt-4 border-t border-gray-200">
                 <form method="POST" action="{{ route('categories.update', $cat['id']) }}">
                     @csrf
+                    @method('PUT')
                     <input type="hidden" name="id" value="<?= $cat['id'] ?>">
                     <input type="text" name="name" value="<?= $cat['name'] ?>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-2 text-sm">
                     <textarea name="description" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-2 text-sm"><?= $cat['description'] ?></textarea>
