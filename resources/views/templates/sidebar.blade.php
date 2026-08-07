@@ -19,7 +19,7 @@
 
             @if(Auth::user()->role == 'admin' || auth()->user()->role == 'teacher')
             <li>
-                <a href="/modules/courses.php" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'courses.php' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
+                <a href="{{ route('courses.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'courses.php' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
                     <i class="fas fa-book"></i>
                     <span>Semua Kursus</span>
                 </a>

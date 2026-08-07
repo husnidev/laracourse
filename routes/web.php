@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CourseController;
 
 Route::get('/login', function(){
     return view('login');
@@ -27,4 +28,6 @@ Route::middleware('auth')->group(function () {
     Route::post('users/bulk-delete', [UserController::class, 'bulkDelete'])->name('users.bulkDelete');
     // categories routes
     Route::resource('categories', CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
+    // courses routes
+    Route::resource('courses', CourseController::class);
 });
