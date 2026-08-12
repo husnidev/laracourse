@@ -13,13 +13,15 @@
 
     <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 mb-6">
         <h3 class="text-lg font-semibold text-gray-800 mb-4">Edit Kursus</h3>
-        <form method="POST" action="/modules/courses.php" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('courses.update', $course->id) }}" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
             <input type="hidden" name="action" value="update">
-            <input type="hidden" name="id" value="">
+            <input type="hidden" name="id" value="{{ $course->id }}">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Judul Kursus</label>
-                    <input type="text" name="title" value="" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                    <input type="text" name="title" value="{{ $course->title }}" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
@@ -31,7 +33,7 @@
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
-                    <textarea name="description" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></textarea>
+                    <textarea name="description" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg">{{ $course->description }}</textarea>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Level</label>
@@ -43,11 +45,11 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Durasi (jam)</label>
-                    <input type="number" name="duration" value="" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                    <input type="number" name="duration" value="{{ $course->duration }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Harga (Rp)</label>
-                    <input type="number" name="price" value="" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                    <input type="number" name="price" value="{{ $course->price }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Thumbnail</label>
@@ -64,7 +66,7 @@
             </div>
             <div class="mt-4 flex space-x-2">
                 <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Update</button>
-                <a href="/modules/courses.php" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">Batal</a>
+                <a href="{{ route('courses.index') }}" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">Batal</a>
             </div>
         </form>
     </div>
