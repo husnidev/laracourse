@@ -12,7 +12,12 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::all();
+        // role admin bisa melihat semua kursus, sedangkan role teacher hanya bisa melihat kursus yang dibuatnya sendiri
+        if(Auth::user()->role == 'admin') {
+            $courses = Course::all();
+        } else {
+            $courses = Course::where('teacher_id', Auth::id())->get(); // hanya kursus yang dibuat oleh teacher yang sedang login
+        }
         $categories = Category::all();
         return view('courses.index', compact('courses', 'categories'));
     }
@@ -57,10 +62,20 @@ class CourseController extends Controller
 
     public function edit($id)
     {
-        $course = Course::findOrFail($id);
-        $courses = Course::all();
+        // jika role user adalah teacher, maka hanya bisa mengedit kursus yang dibuatnya sendiri
+        if(Auth::user()->role == 'teacher') {
+            $course = Course::where('id', $id)->where('teacher_id', Auth::id())->firstOrFail();
+            $courses = Course::where('teacher_id', Auth::id())->get(); // hanya kursus yang dibuat oleh teacher yang sedang login
+            $categories = Category::all();
+            return view('courses.edit', compact('course', 'courses', 'categories'));
+        } else {
+            $course = Course::findOrFail($id);
+            $courses = Course::all();
+            $categories = Category::all();
+            return view('courses.index', compact('course', 'courses', 'categories'));
+        }
         $categories = Category::all();
-        return view('courses.edit', compact('course', 'courses', 'categories'));
+        
     }
 
     public function update(Request $request, $id)
@@ -91,5 +106,12 @@ class CourseController extends Controller
         $course->save();
 
         return redirect()->route('courses.index')->with('success', 'Kursus berhasil diperbarui.');
+    }
+
+    public function destroy(Course $course)
+    {
+        $course->delete();
+
+        return redirect()->route('courses.index')->with('succes', 'Course deleted succesfully.');
     }
 }
