@@ -75,7 +75,7 @@ class CourseController extends Controller
             return view('courses.index', compact('course', 'courses', 'categories'));
         }
         $categories = Category::all();
-        
+
     }
 
     public function update(Request $request, $id)
@@ -110,8 +110,13 @@ class CourseController extends Controller
 
     public function destroy(Course $course)
     {
-        $course->delete();
+        // jika role user adalah teacher, maka hanya bisa menghapus kursus yang dibuatnya sendiri
+        if(Auth::user()->role == 'teacher' && $course->teacher_id != Auth::id()) {
+            $course->where('teacher_id', Auth::id())->delete();
+            return back()->with('error', 'Anda tidak memiliki izin untuk menghapus kursus ini.');
+        } else {
+            return back()->with('success', 'Kursus berhasil dihapus.');
+        }
 
-        return redirect()->route('courses.index')->with('succes', 'Course deleted succesfully.');
     }
 }
