@@ -16,6 +16,11 @@ class Course extends Model
         return $this->belongsToMany(Teacher::class);
     }
 
+    public function modules()
+    {
+        return $this->hasMany(CourseModule::class, 'course_id');
+    }
+
 
     public $timestamps = false;
     public $fillable = ['teacher_id', 'category_id', 'title', 'slug', 'description', 'thumbnail', 'level', 'duration', 'price', 'status'];

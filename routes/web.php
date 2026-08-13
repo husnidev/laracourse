@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseModuleController;
 
 Route::get('/login', function(){
     return view('login');
@@ -30,4 +31,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
     // courses routes
     Route::resource('courses', CourseController::class);
+    // course modules routes
+    Route::resource('manage-courses', CourseModuleController::class);
 });

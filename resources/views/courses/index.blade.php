@@ -67,7 +67,7 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex space-x-2">
-                            <a href="/modules/courses.php?action=manage&id=<?= $course['id'] ?>" class="text-indigo-600 hover:text-indigo-800" title="Kelola">
+                            <a href="{{ route('manage-courses.index', ['id' => $course['id']]) }}" class="text-indigo-600 hover:text-indigo-800" title="Kelola">
                                 <i class="fas fa-cog"></i>
                             </a>
                             <a href="{{ route('courses.edit', $course['id']) }}" class="text-yellow-600 hover:text-yellow-800" title="Edit">
