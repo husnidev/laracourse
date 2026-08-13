@@ -24,9 +24,13 @@ class CourseController extends Controller
 
     public function create()
     {
-        $courses = Course::all();
+        $courses = Course::where('teacher_id', Auth::id())->get(); // hanya kursus yang dibuat oleh teacher yang sedang login
         $categories = Category::all();
-        return view('courses.create', compact('courses', 'categories'));
+        if(Auth::user()->role == 'teacher'){
+            return view('courses.create', compact('courses', 'categories'));
+        }else{
+            return view('courses.index', compact('courses', 'categories'));
+        }
     }
 
     public function store(Request $request)
@@ -110,13 +114,17 @@ class CourseController extends Controller
 
     public function destroy(Course $course)
     {
-        // jika role user adalah teacher, maka hanya bisa menghapus kursus yang dibuatnya sendiri
-        if(Auth::user()->role == 'teacher' && $course->teacher_id != Auth::id()) {
-            $course->where('teacher_id', Auth::id())->delete();
-            return back()->with('error', 'Anda tidak memiliki izin untuk menghapus kursus ini.');
-        } else {
-            return back()->with('success', 'Kursus berhasil dihapus.');
+        // hanya role teacher yang bisa menghapus kursus
+        if(Auth::user()->role != 'teacher') {
+            return back()->with('error', 'Hanya teacher yang dapat menghapus kursus.');
         }
 
+        // teacher hanya bisa menghapus kursus yang dibuatnya sendiri
+        if($course->teacher_id != Auth::id()) {
+            return back()->with('error', 'Anda tidak berhak menghapus kursus ini.');
+        }
+
+        $course->delete();
+        return back()->with('success', 'Kursus berhasil dihapus.');
     }
 }

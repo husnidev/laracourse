@@ -8,7 +8,8 @@
             <strong class="font-bold">Berhasil! </strong>
             <span class="block sm:inline">{{ session('success') }}</span>
         </div>
-    <?php else: ?>
+    <?php endif ?>
+      <?php if(session('error')):?>
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
             <strong class="font-bold">Error! </strong>
             <span class="block sm:inline">{{ session('error') }}</span>
@@ -75,7 +76,7 @@
                             <form action="{{ route('courses.destroy', $course['id']) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-gray-400 hover:text-red-600" data-confirm="Yakin ingin menghapus kategori ini?">
+                                <button type="submit" class="text-red-400 hover:text-red-600" data-confirm="Yakin ingin menghapus kategori ini?">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
