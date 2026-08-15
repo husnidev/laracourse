@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Course;
 use App\Models\CourseModule As Module;
 use App\Models\Lesson;
+use App\Models\Category;
+use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Support\Facades\DB;
 
 class CourseModuleController extends Controller
 {
@@ -29,17 +32,10 @@ class CourseModuleController extends Controller
         $modules = $course->modules;
         $lessons = [];
         foreach ($modules as $module) {
-            $lessons = Lesson::find()->where('module_id', $module['id']);
+            $lessons = Lesson::where('module_id', $module['id'])->get();
         }
-        return view('course-modules.index', compact('course', 'modules', 'lessons'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $categories = Category::all();
+        return view('course-modules.index', compact('course', 'modules', 'lessons', 'categories'));
     }
 
     /**
@@ -47,7 +43,19 @@ class CourseModuleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $module = new Module();
+        $course_id = $request->course_id ?? '';
+        $maxSeq = Module::where('course_id', $course_id)->max('sequence');
+        $module->course_id = $course_id;
+        $module->title = $request->title;
+        $module->description = $request->description;
+        $module->sequence = $maxSeq + 1;
+
+        $module->save();
+
+        return back()->with('success', 'Module berhasil ditambahkan!');
+       
+    
     }
 
     /**
