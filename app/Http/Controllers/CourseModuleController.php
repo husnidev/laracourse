@@ -8,8 +8,6 @@ use App\Models\Course;
 use App\Models\CourseModule As Module;
 use App\Models\Lesson;
 use App\Models\Category;
-use Illuminate\Database\Eloquent\Factories\Sequence;
-use Illuminate\Support\Facades\DB;
 
 class CourseModuleController extends Controller
 {
@@ -59,34 +57,72 @@ class CourseModuleController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $module = Module::find($id);
+        $module->title = $request->title;
+        $module->description = $request->description;
+        $module->update();
+
+        return back()->with('success', 'Module berhasil diupdate!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Module $module)
     {
-        //
+        // hanya role teacher yang bisa menghapus module
+        if(Auth::user()->role !='teacher'){
+            return back()->with('error', 'Hanya teacher yang bisa menghapus module.');
+        }
+
+        $module->delete();
+
+        return back()->with('success', 'Modul berhasil dihapus.');
+    }
+
+    public function create_lesson(Request $request)
+    {
+        $lesson = new Lesson();
+        $module_id = $request->module_id;
+        $maxSeq = Lesson::where('module_id', $module_id)->max('sequence');
+        $lesson->module_id = $request->module_id;
+        $lesson->title = $request->title;
+        $lesson->content = $request->content;
+        $lesson->video_url = $request->video_url;
+        $lesson->sequence = $maxSeq + 1;
+        $lesson->save();
+
+        return back()->with('success', 'Lesson berhasil ditambahkan!');
+    }
+
+    public function update_lesson(Request $request)
+    {
+        $lesson_id = $request->lesson_id;
+        $lesson = Lesson::find($lesson_id);
+        $lesson->title = $request->title;
+        $lesson->content = $request->content;
+        $lesson->video_url = $request->video_url;
+        $lesson->duration = $request->duration;
+        $lesson->update();
+
+        return back()->with('success', 'Lesson berhasil diupdate!');
+    } 
+
+    public function delete_lesson(Request $request)
+    {
+        $lesson_id = $request->lesson_id;
+        $lesson = Lesson::find($lesson_id);
+
+        if(!$lesson){
+            return back()->with('error', 'Id lesson = '.$lesson_id.' tidak ditemukan!');
+        }
+
+        $lesson->delete();
+
+        return back()->with('success', 'Lesson berhasil dihapus!');
     }
 }

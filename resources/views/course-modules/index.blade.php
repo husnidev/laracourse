@@ -62,10 +62,10 @@
                         <button onclick="showModal('addLessonModal<?= $module['id'] ?>')" class="text-indigo-600 hover:text-indigo-800" title="Tambah Lesson">
                             <i class="fas fa-plus"></i>
                         </button>
-                        <form method="POST" class="inline" data-confirm="Yakin ingin menghapus module ini?">
-                            <input type="hidden" name="action" value="delete_module">
-                            <input type="hidden" name="module_id" value="<?= $module['id'] ?>">
-                            <button type="submit" class="text-red-600 hover:text-red-800" title="Hapus">
+                        <form method="POST" action="{{ route('manage-courses.destroy', $module['id']) }}" class="inline" data-confirm="Yakin ingin menghapus module ini?">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-600 hover:text-red-800" title="Hapus Module">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </form>
@@ -106,8 +106,9 @@
                             <button onclick="showModal('addAssignmentModal<?= $lesson['id'] ?>')" class="text-yellow-600 hover:text-yellow-800" title="Tambah Tugas">
                                 <i class="fas fa-tasks"></i>
                             </button>
-                            <form method="POST" class="inline" data-confirm="Yakin ingin menghapus lesson ini?">
-                                <input type="hidden" name="action" value="delete_lesson">
+                            <form method="POST" action="{{ route('manage-courses.delete_lesson') }}" class="inline" data-confirm="Yakin ingin menghapus lesson ini?">
+                                @csrf
+                                @method('DELETE')
                                 <input type="hidden" name="lesson_id" value="<?= $lesson['id'] ?>">
                                 <button type="submit" class="text-red-600 hover:text-red-800" title="Hapus">
                                     <i class="fas fa-trash"></i>
@@ -132,8 +133,8 @@
                 <div class="p-6 border-b border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-800">Tambah Lesson</h3>
                 </div>
-                <form method="POST" class="p-6">
-                    <input type="hidden" name="action" value="add_lesson">
+                <form method="POST" action="{{ route('manage-courses.create_lesson') }}" class="p-6">
+                   @csrf
                     <input type="hidden" name="module_id" value="<?= $module['id'] ?>">
                     <div class="space-y-4">
                         <div>
@@ -171,9 +172,9 @@
                 <div class="p-6 border-b border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-800">Edit Module</h3>
                 </div>
-                <form method="POST" class="p-6">
-                    <input type="hidden" name="action" value="edit_module">
-                    <input type="hidden" name="module_id" value="<?= $module['id'] ?>">
+                <form method="POST" class="p-6" action="{{ route('manage-courses.update', $module['id']) }}" > 
+                    @csrf
+                    @method('PUT')
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Judul Module</label>
@@ -203,8 +204,9 @@
                 <div class="p-6 border-b border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-800">Edit Lesson</h3>
                 </div>
-                <form method="POST" class="p-6">
-                    <input type="hidden" name="action" value="edit_lesson">
+                <form method="POST" action="{{ route('manage-courses.update_lesson') }}" class="p-6">
+                    @csrf
+                    @method('PUT')
                     <input type="hidden" name="lesson_id" value="<?= $lesson['id'] ?>">
                     <div class="space-y-4">
                         <div>

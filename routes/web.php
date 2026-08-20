@@ -32,5 +32,12 @@ Route::middleware('auth')->group(function () {
     // courses routes
     Route::resource('courses', CourseController::class);
     // course modules routes
-    Route::resource('manage-courses', CourseModuleController::class);
+    Route::resource('manage-courses', CourseModuleController::class)->except(['destroy']);
+    Route::delete('manage-courses/{module}', [CourseModuleController::class, 'destroy'])
+    ->name('manage-courses.destroy');
+    // lessons routes
+    Route::post('manage-course/create_lesson', [CourseModuleController::class, 'create_lesson'])->name('manage-courses.create_lesson');
+    Route::put('manage-course/update_lesson', [CourseModuleController::class, 'update_lesson'])->name('manage-courses.update_lesson');
+    Route::delete('manage-course/delete_lesson', [CourseModuleController::class, 'delete_lesson'])->name('manage-courses.delete_lesson');
+
 });
