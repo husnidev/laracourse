@@ -52,8 +52,8 @@ class CourseModuleController extends Controller
         $module->save();
 
         return back()->with('success', 'Module berhasil ditambahkan!');
-       
-    
+
+
     }
 
     /**
@@ -93,6 +93,7 @@ class CourseModuleController extends Controller
         $lesson->title = $request->title;
         $lesson->content = $request->content;
         $lesson->video_url = $request->video_url;
+        $lesson->duration = $request->duration;
         $lesson->sequence = $maxSeq + 1;
         $lesson->save();
 
@@ -110,7 +111,7 @@ class CourseModuleController extends Controller
         $lesson->update();
 
         return back()->with('success', 'Lesson berhasil diupdate!');
-    } 
+    }
 
     public function delete_lesson(Request $request)
     {
