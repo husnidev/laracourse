@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\CourseModule As Module;
 use App\Models\Lesson;
 use App\Models\Category;
+use App\Models\Quiz;
 
 class CourseModuleController extends Controller
 {
@@ -125,5 +126,49 @@ class CourseModuleController extends Controller
         $lesson->delete();
 
         return back()->with('success', 'Lesson berhasil dihapus!');
+    }
+
+    public function create_quiz(Request $request)
+    {
+        $lesson_id = $request->lesson_id;
+
+        $quiz = new Quiz();
+        $quiz->lesson_id = $lesson_id;
+        $quiz->title = $request->title;
+        $quiz->duration = $request->duration;
+        $quiz->total_score = $request->total_score;
+        $quiz->save();
+
+        return back()->with('success', 'Quiz berhasil ditambahkan!');
+    }
+
+    public function update_quiz(Request $request)
+    {
+        $quiz_id = $request->quiz_id;
+        $quiz = Quiz::find($quiz_id);
+
+        if(!$quiz){
+            return back()->with('error', 'id quiz = '.$quiz_id.' tidak ditemukan!');
+        }
+
+        $quiz->title = $request->title;
+        $quiz->duration = $request->duration;
+        $quiz->total_score = $request->total_score;
+        $quiz->update();
+
+        return back()->with('success', 'Quiz berhasil diupdate!');
+    }
+
+    public function delete_quiz(Request $request)
+    {
+        $quiz_id = $request->quiz_id;
+        $quiz = Quiz::find($quiz_id);
+
+        if(!$quiz){
+            return back()->with('error', 'id quiz = '.$quiz_id.' tidak ditemukan!');
+        }
+        $quiz->delete();
+
+        return back()->with('success', 'Quiz berhasil dihapus!');
     }
 }

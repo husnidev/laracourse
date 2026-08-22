@@ -10,4 +10,9 @@ class Lesson extends Model
 {
     public $timestamps = false;
     public $fillable = ['module_id', 'title', 'content', 'video_url', 'duration', 'sequence'];
+
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class, 'lesson_id', 'id');
+    }
 }
