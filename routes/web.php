@@ -42,5 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::post('manage-course/create_quiz', [CourseModuleController::class, 'create_quiz'])->name('manage-courses.create_quiz');
     Route::put('manage-course/update_quiz', [CourseModuleController::class, 'update_quiz'])->name('manage-courses.update_quiz');
     Route::delete('manage-course/delete_quiz', [CourseModuleController::class, 'delete_quiz'])->name('manage-courses.delete_quiz');
+    Route::post('manage-course/create_assignment', [CourseModuleController::class, 'create_assignment'])->name('manage-courses.create_assignment');
+    Route::put('manage-course/update_assignment', [CourseModuleController::class, 'update_assignment'])->name('manage-courses.update_assignment');
+    Route::delete('manage-course/delete_assignment', [CourseModuleController::class, 'delete_assignment'])->name('manage-courses.delete_assignment');
 
 });

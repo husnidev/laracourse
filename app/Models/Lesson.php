@@ -15,4 +15,9 @@ class Lesson extends Model
     {
         return $this->hasMany(Quiz::class, 'lesson_id', 'id');
     }
+    
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class, 'lesson_id', 'id');
+    }
 }

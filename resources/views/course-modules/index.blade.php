@@ -136,7 +136,7 @@
                                 <button onclick="showModal('editQuizModal<?= $quiz['id'] ?>')" class="text-yellow-600 hover:text-yellow-800 text-xs" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <form method="POST" action={{ route('manage-courses.delete_quiz') }} class="inline" data-confirm="Yakin ingin menghapus quiz ini? Semua soal akan terhapus!">
+                                <form method="POST" action="{{ route('manage-courses.delete_quiz') }}" class="inline" data-confirm="Yakin ingin menghapus quiz ini? Semua soal akan terhapus!">
                                     @method('DELETE')
                                     <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                                     <input type="hidden" name="quiz_id" value="<?= $quiz['id'] ?>">
@@ -151,9 +151,9 @@
                     <?php endif; ?>
                     
                     
-                    {{-- <div class="mt-3 ml-11 space-y-1">
+                    <div class="mt-3 ml-11 space-y-1">
                         <p class="text-xs font-medium text-gray-500 uppercase mb-1">Daftar Tugas:</p>
-                        <?php foreach ($lesson['assignments'] as $assignment): ?>
+                        <?php foreach ($lesson->assignments as $assignment): ?>
                         <div class="flex items-center justify-between bg-yellow-50 rounded-lg px-3 py-2">
                             <div class="flex items-center space-x-2">
                                 <i class="fas fa-tasks text-yellow-600 text-sm"></i>
@@ -170,8 +170,9 @@
                                 <button onclick="showModal('editAssignmentModal<?= $assignment['id'] ?>')" class="text-yellow-600 hover:text-yellow-800 text-xs" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <form method="POST" class="inline" data-confirm="Yakin ingin menghapus tugas ini? Semua pengumpulan akan terhapus!">
-                                    <input type="hidden" name="action" value="delete_assignment">
+                                <form method="POST" action="{{ route('manage-courses.delete_assignment') }}" class="inline" data-confirm="Yakin ingin menghapus tugas ini? Semua pengumpulan akan terhapus!">
+                                    @method('DELETE')
+                                    <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                                     <input type="hidden" name="assignment_id" value="<?= $assignment['id'] ?>">
                                     <button type="submit" class="text-red-600 hover:text-red-800 text-xs" title="Hapus">
                                         <i class="fas fa-trash"></i>
@@ -180,7 +181,7 @@
                             </div>
                         </div>
                         <?php endforeach; ?>
-                    </div> --}}
+                    </div>
                     
                 </div>
                 <?php endforeach; ?>
@@ -441,8 +442,8 @@ foreach ($modules as $module) {
         echo '<div id="addAssignmentModal' . $lesson['id'] . '" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">';
         echo '<div class="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4">';
         echo '<div class="p-6 border-b border-gray-200"><h3 class="text-lg font-semibold text-gray-800">Tambah Tugas</h3></div>';
-        echo '<form method="POST" class="p-6">';
-        echo '<input type="hidden" name="action" value="add_assignment">';
+        echo '<form method="POST" class="p-6" action="'.route('manage-courses.create_assignment').'">';
+        echo '<input type="hidden" name="_token" value="'.csrf_token().'">';
         echo '<input type="hidden" name="lesson_id" value="' . $lesson['id'] . '">';
         echo '<div class="space-y-4">';
         echo '<div><label class="block text-sm font-medium text-gray-700 mb-1">Judul Tugas</label>';
@@ -484,29 +485,30 @@ foreach ($modules as $module) {
         }
         
         // Edit Assignment Modals
-        // foreach ($lesson['assignments'] as $assignment) {
-        //     $due_val = $assignment['due_date'] ? date('Y-m-d\TH:i', strtotime($assignment['due_date'])) : '';
-        //     echo '<div id="editAssignmentModal' . $assignment['id'] . '" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">';
-        //     echo '<div class="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4">';
-        //     echo '<div class="p-6 border-b border-gray-200"><h3 class="text-lg font-semibold text-gray-800">Edit Tugas</h3></div>';
-        //     echo '<form method="POST" class="p-6">';
-        //     echo '<input type="hidden" name="action" value="edit_assignment">';
-        //     echo '<input type="hidden" name="assignment_id" value="' . $assignment['id'] . '">';
-        //     echo '<div class="space-y-4">';
-        //     echo '<div><label class="block text-sm font-medium text-gray-700 mb-1">Judul Tugas</label>';
-        //     echo '<input type="text" name="title" value="' . htmlspecialchars($assignment['title']) . '" required class="w-full px-4 py-2 border border-gray-300 rounded-lg"></div>';
-        //     echo '<div><label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>';
-        //     echo '<textarea name="description" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg">' . htmlspecialchars($assignment['description']) . '</textarea></div>';
-        //     echo '<div><label class="block text-sm font-medium text-gray-700 mb-1">Batas Waktu</label>';
-        //     echo '<input type="datetime-local" name="due_date" value="' . $due_val . '" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></div>';
-        //     echo '<div><label class="block text-sm font-medium text-gray-700 mb-1">Skor Maksimal</label>';
-        //     echo '<input type="number" name="max_score" value="' . $assignment['max_score'] . '" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></div>';
-        //     echo '</div>';
-        //     echo '<div class="mt-6 flex justify-end space-x-2">';
-        //     echo '<button type="button" onclick="hideModal(\'editAssignmentModal' . $assignment['id'] . '\')" class="px-4 py-2 text-gray-600">Batal</button>';
-        //     echo '<button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Update</button>';
-        //     echo '</div></form></div></div>';
-        // }
+        foreach ($lesson->assignments as $assignment) {
+            $due_val = $assignment['due_date'] ? date('Y-m-d\TH:i', strtotime($assignment['due_date'])) : '';
+            echo '<div id="editAssignmentModal' . $assignment['id'] . '" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">';
+            echo '<div class="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4">';
+            echo '<div class="p-6 border-b border-gray-200"><h3 class="text-lg font-semibold text-gray-800">Edit Tugas</h3></div>';
+            echo '<form method="POST" action="'.route('manage-courses.update_assignment').'" class="p-6">';
+            echo '<input type="hidden" name="_token" value="'.csrf_token().'">';
+            echo '<input type="hidden" name="_method" value="PUT">';
+            echo '<input type="hidden" name="assignment_id" value="' . $assignment['id'] . '">';
+            echo '<div class="space-y-4">';
+            echo '<div><label class="block text-sm font-medium text-gray-700 mb-1">Judul Tugas</label>';
+            echo '<input type="text" name="title" value="' . htmlspecialchars($assignment['title']) . '" required class="w-full px-4 py-2 border border-gray-300 rounded-lg"></div>';
+            echo '<div><label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>';
+            echo '<textarea name="description" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg">' . htmlspecialchars($assignment['description']) . '</textarea></div>';
+            echo '<div><label class="block text-sm font-medium text-gray-700 mb-1">Batas Waktu</label>';
+            echo '<input type="datetime-local" name="due_date" value="' . $due_val . '" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></div>';
+            echo '<div><label class="block text-sm font-medium text-gray-700 mb-1">Skor Maksimal</label>';
+            echo '<input type="number" name="max_score" value="' . $assignment['max_score'] . '" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></div>';
+            echo '</div>';
+            echo '<div class="mt-6 flex justify-end space-x-2">';
+            echo '<button type="button" onclick="hideModal(\'editAssignmentModal' . $assignment['id'] . '\')" class="px-4 py-2 text-gray-600">Batal</button>';
+            echo '<button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Update</button>';
+            echo '</div></form></div></div>';
+        }
     }
 }
 ?>

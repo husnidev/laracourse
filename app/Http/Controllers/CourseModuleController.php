@@ -9,6 +9,7 @@ use App\Models\CourseModule As Module;
 use App\Models\Lesson;
 use App\Models\Category;
 use App\Models\Quiz;
+use App\models\Assignment;
 
 class CourseModuleController extends Controller
 {
@@ -170,5 +171,51 @@ class CourseModuleController extends Controller
         $quiz->delete();
 
         return back()->with('success', 'Quiz berhasil dihapus!');
+    }
+
+    public function create_assignment(Request $request)
+    {
+        $lesson_id = $request->lesson_id;
+
+        $assignment = new Assignment();
+        $assignment->lesson_id = $lesson_id;
+        $assignment->title = $request->title;
+        $assignment->description = $request->description;
+        $assignment->due_date = $request->due_date;
+        $assignment->max_score = $request->max_score;
+        $assignment->save();
+
+        return back()->with('success', 'Tugas berhasil ditambahkan!');
+    }
+
+    public function update_assignment(Request $request)
+    {
+        $assignment_id = $request->assignment_id;
+        $assignment = Assignment::find($assignment_id);
+
+        if(!$assignment){
+            return back()->with('error', 'id tugas = '.$assignment_id.' tidak ditemukan!');
+        }
+
+        $assignment->title = $request->title;
+        $assignment->description = $request->description;
+        $assignment->due_date = $request->due_date;
+        $assignment->max_score = $request->max_score;
+        $assignment->update();
+
+        return back()->with('success', 'Tugas berhasil diupdate!');
+    }
+
+    public function delete_assignment(Request $request)
+    {
+        $assignment_id = $request->assignment_id;
+        $assignment = Assignment::find($assignment_id);
+
+        if(!$assignment){
+            return back()->with('error', 'id tugas = '.$assignment_id.' tidak ditemukan!');
+        }
+        $assignment->delete();
+
+        return back()->with('success', 'Tugas berhasil dihapus!');
     }
 }
