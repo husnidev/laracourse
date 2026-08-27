@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseModuleController;
+use App\Http\Controllers\ManageQuizController;
 
 Route::get('/login', function(){
     return view('login');
@@ -45,5 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::post('manage-course/create_assignment', [CourseModuleController::class, 'create_assignment'])->name('manage-courses.create_assignment');
     Route::put('manage-course/update_assignment', [CourseModuleController::class, 'update_assignment'])->name('manage-courses.update_assignment');
     Route::delete('manage-course/delete_assignment', [CourseModuleController::class, 'delete_assignment'])->name('manage-courses.delete_assignment');
+    Route::get('manage-quiz/{quiz_id}', [ManageQuizController::class, 'index'])->name('manage-quiz.index');
+    Route::post('manage-quiz/create', [ManageQuizController::class, 'store'])->name('manage-quiz.store');
 
 });

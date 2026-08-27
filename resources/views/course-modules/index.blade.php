@@ -130,7 +130,7 @@
                                 <span class="text-xs text-gray-400"><?= $quiz['question_count'] ?> soal</span>
                             </div>
                             <div class="flex items-center space-x-2">
-                                <a href="/modules/manage-quiz.php?id=<?= $quiz['id'] ?>" class="text-indigo-600 hover:text-indigo-800 text-xs font-medium" title="Kelola Soal">
+                                <a href="{{ route('manage-quiz.index', ['quiz_id' => $quiz['id']]) }}" class="text-indigo-600 hover:text-indigo-800 text-xs font-medium" title="Kelola Soal">
                                     <i class="fas fa-cog"></i>
                                 </a>
                                 <button onclick="showModal('editQuizModal<?= $quiz['id'] ?>')" class="text-yellow-600 hover:text-yellow-800 text-xs" title="Edit">
