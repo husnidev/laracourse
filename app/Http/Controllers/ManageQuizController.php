@@ -19,7 +19,7 @@ class ManageQuizController extends Controller
                 ->select([
                     'quizzes.*',
                     'lessons.title as lesson_title',
-                    'courses.id as course_id', 
+                    'courses.id as course_id',
                     'courses.title as course_title'
                 ])
                 ->join('lessons', 'quizzes.lesson_id', '=', 'lessons.id')
@@ -65,34 +65,26 @@ class ManageQuizController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $question_id = $request->question_id;
+        $question = Question::find($question_id);
+        $option = Option::where('question_id', $question_id)->first();
+
+        if($option){
+            $question->options()->delete();
+            // atau
+            // Option::where('question_id', $question_id)->delete();
+        }
+
+        if(!$question){
+            return back()->with('error', 'id soal : '.$question_id.' tidak ditemukan!');
+        }
+
+        $question->delete();
+
+        return back()->with('success', 'Soal berhasil dihapus!');
     }
 }

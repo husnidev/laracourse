@@ -77,7 +77,7 @@
                         </td>
                         <td class="px-6 py-4">
                             <span class="text-xs px-2 py-1 rounded-full <?= $user['role'] === 'teacher' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600' ?>">
-                                <?= $user['role'] === 'teacher' ? 'Guru/Dosen' : 'Siswa' ?>
+                               <?= ucfirst($user['role']) ?>
                             </span>
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-600"><?= $user['phone'] ?? '-' ?></td>

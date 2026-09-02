@@ -10,7 +10,7 @@
         <i class="fas fa-chevron-right text-xs"></i>
         <span class="text-gray-800">Quiz</span>
     </div>
-    
+
     <?php if(session('success')):?>
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
             <strong class="font-bold">Berhasil! </strong>
@@ -45,7 +45,7 @@
             </a>
         </div>
     </div>
-    
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2">
             <?php if (count($questions) <= 0): ?>
@@ -67,14 +67,15 @@
                                 <div>
                                     <p class="font-medium text-gray-800"><?= $question['question'] ?></p>
                                     <p class="text-xs text-gray-500">
-                                        <?= $question['type'] === 'multiple_choice' ? 'Pilihan Ganda' : 
+                                        <?= $question['type'] === 'multiple_choice' ? 'Pilihan Ganda' :
                                             ($question['type'] === 'true_false' ? 'Benar/Salah' : 'Essay') ?>
                                         &middot; <?= $question['score'] ?> poin
                                     </p>
                                 </div>
                             </div>
-                            <form method="POST" class="inline" data-confirm="Yakin ingin menghapus soal ini?">
-                                <input type="hidden" name="action" value="delete_question">
+                            <form method="POST" class="inline" data-confirm="Yakin ingin menghapus soal ini?" action="{{ route('manage-quiz.delete') }}">
+                                <input type="hidden" name="_token" value="<?= csrf_token() ?>">
+                                <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="question_id" value="<?= $question['id'] ?>">
                                 <button type="submit" class="text-red-600 hover:text-red-800" title="Hapus">
                                     <i class="fas fa-trash"></i>
@@ -82,7 +83,7 @@
                             </form>
                         </div>
                     </div>
-                    
+
                     <?php if (!empty($question['options'])): ?>
                     <div class="px-6 py-4 space-y-2">
                         <?php foreach ($question['options'] as $option): ?>
@@ -107,7 +108,7 @@
             </div>
             <?php endif; ?>
         </div>
-        
+
         <div class="lg:col-span-1">
             <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 sticky top-24">
                 <h3 class="font-semibold text-gray-800 mb-4">Tambah Soal</h3>
@@ -131,7 +132,7 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">Poin</label>
                             <input type="number" name="score" value="10" min="1" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
                         </div>
-                        
+
                         <div id="optionsContainer">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Opsi Jawaban</label>
                             <div class="space-y-2">

@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseModuleController;
 use App\Http\Controllers\ManageQuizController;
+use App\Http\Controllers\StudentController;
 
 Route::get('/login', function(){
     return view('login');
@@ -48,5 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('manage-course/delete_assignment', [CourseModuleController::class, 'delete_assignment'])->name('manage-courses.delete_assignment');
     Route::get('manage-quiz/{quiz_id}', [ManageQuizController::class, 'index'])->name('manage-quiz.index');
     Route::post('manage-quiz/create', [ManageQuizController::class, 'store'])->name('manage-quiz.store');
-
+    Route::delete('manage-quiz/delete', [ManageQuizController::class, 'destroy'])->name('manage-quiz.delete');
+    // students routes
+    Route::get('students', [StudentController::class, 'index'])->name('students.index');
 });

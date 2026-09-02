@@ -11,7 +11,7 @@
     <nav class="p-4">
         <ul class="space-y-2">
             <li>
-                <a href="/modules/dashboard.php" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
+                <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
                     <i class="fas fa-home"></i>
                     <span>Dashboard</span>
                 </a>
@@ -31,7 +31,7 @@
                 </a>
             </li>
             <li>
-                <a href="/modules/students.php" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'students.php' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
+                <a href="{{ route('students.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'students.php' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
                     <i class="fas fa-users"></i>
                     <span>Siswa</span>
                 </a>
