@@ -199,7 +199,7 @@
             <div class="text-center py-8">
                 <i class="fas fa-book-open text-4xl text-gray-300 mb-3"></i>
                 <p class="text-gray-500">Anda belum mengikuti kursus apapun</p>
-                <a href="/modules/browse-courses.php" class="inline-block mt-3 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+                <a href="{{ route('browse-courses.index') }}" class="inline-block mt-3 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
                     Jelajahi Kursus
                 </a>
             </div>

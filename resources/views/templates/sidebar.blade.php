@@ -40,7 +40,7 @@
 
             @if(Auth::user()->role == 'student')
             <li>
-                <a href="/modules/browse-courses.php" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'browse-courses.php' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
+                <a href="{{ route('browse-courses.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg <?= basename($_SERVER['PHP_SELF']) == 'browse-courses' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50' ?>">
                     <i class="fas fa-search"></i>
                     <span>Jelajahi Kursus</span>
                 </a>

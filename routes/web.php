@@ -11,6 +11,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseModuleController;
 use App\Http\Controllers\ManageQuizController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\BrowseCourseController;
 
 Route::get('/login', function(){
     return view('login');
@@ -52,4 +53,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('manage-quiz/delete', [ManageQuizController::class, 'destroy'])->name('manage-quiz.delete');
     // students routes
     Route::get('students', [StudentController::class, 'index'])->name('students.index');
+    // browse courses routes
+    Route::get('browse-courses', [BrowseCourseController::class, 'index'])->name('browse-courses.index');
 });

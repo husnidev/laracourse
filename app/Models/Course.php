@@ -6,14 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    public function students()
+    public function users()
     {
-        return $this->belongsToMany(Student::class);
-    }
-
-    public function teachers()
-    {
-        return $this->belongsToMany(Teacher::class);
+        return $this->belongsToMany(User::class);
     }
 
     public function modules()
