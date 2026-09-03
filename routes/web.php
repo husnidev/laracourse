@@ -12,6 +12,7 @@ use App\Http\Controllers\CourseModuleController;
 use App\Http\Controllers\ManageQuizController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\BrowseCourseController;
+use App\Http\Controllers\MyCourseController;
 
 Route::get('/login', function(){
     return view('login');
@@ -56,4 +57,6 @@ Route::middleware('auth')->group(function () {
     // browse courses routes
     Route::get('browse-courses', [BrowseCourseController::class, 'index'])->name('browse-courses.index');
     Route::post('browse-courses/enroll', [BrowseCourseController::class, 'enroll'])->name('browse-courses.enroll');
+    // my courses routes
+    Route::get('my-courses', [MyCourseController::class, 'index'])->name('my-courses.index');
 });

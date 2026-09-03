@@ -6,7 +6,13 @@
 <div class="fade-in">
     <div class="mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Selamat datang!</h2>
+        @if(Auth::user()->role == 'admin')
         <p class="text-gray-500">Panel Administrator</p>
+        @elseif(Auth::user()->role == 'teacher')
+        <p class="text-gray-500">Panel Guru</p>
+        @else
+        <p class="text-gray-500">Panel Siswa</p>
+        @endif
     </div>
 
     <?php if(Auth::user()->role == 'admin'): ?>
@@ -192,10 +198,10 @@
     </div>
     <?php endif; ?>
 
-    <?php if(Auth::user()->role == 'student') : ?>
+    @if(Auth::user()->role == 'student')
     <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
         <h3 class="text-lg font-semibold text-gray-800 mb-4">Kursus Terbaru</h3>
-        <?php if (count($recentCourses) <= 0): ?>
+        @if(count($recentCourses) <= 0)
             <div class="text-center py-8">
                 <i class="fas fa-book-open text-4xl text-gray-300 mb-3"></i>
                 <p class="text-gray-500">Anda belum mengikuti kursus apapun</p>
@@ -203,14 +209,14 @@
                     Jelajahi Kursus
                 </a>
             </div>
-        <?php else: ?>
+        @else
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <?php foreach ($recentCourses as $row): ?>
                 <div class="border border-gray-200 rounded-lg p-4 card-hover">
                     <div class="h-32 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-lg mb-3 flex items-center justify-center">
                         <i class="fas fa-book text-white text-3xl"></i>
                     </div>
-                    <h4 class="font-semibold text-gray-800 mb-2"><?= $row->course->title ?></h4>
+                    <h4 class="font-semibold text-gray-800 mb-2"><?= $row->courses?->title ?></h4>
                     <div class="mb-2">
                         <div class="flex justify-between text-xs text-gray-500 mb-1">
                             <span>Progress</span>
@@ -226,9 +232,9 @@
                 </div>
                 <?php endforeach; ?>
             </div>
-        <?php endif; ?>
+        @endif
     </div>
-    <?php endif; ?>
+    @endif
 
 </div>
 

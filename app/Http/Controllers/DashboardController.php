@@ -68,9 +68,9 @@ class DashboardController extends Controller
             $completedCourses = Enrollment::where(['student_id' => auth()->id(), 'status' => 'completed'])->count();
             $certificates = Certificate::where('student_id', auth()->id())->count();
             $avgProgress = round(Enrollment::where('student_id', auth()->id())->avg('progress') ?? 0);
-            $recentCourses = Enrollment::with('course')
+            $recentCourses = Enrollment::with('courses')
                 ->where('student_id', auth()->id())
-                ->orderByDesc('enrolled_at')
+                ->latest('enrolled_at')
                 ->limit(5)
                 ->get();
 
