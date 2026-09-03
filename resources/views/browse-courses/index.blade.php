@@ -66,8 +66,8 @@
                     <?php if (in_array($course->id, $enrolled_ids)): ?>
                         <span class="text-green-600 text-sm"><i class="fas fa-check-circle mr-1"></i>Terdaftar</span>
                     <?php else: ?>
-                        <form method="POST">
-                            <input type="hidden" name="enroll" value="1">
+                        <form method="POST" action="{{ route('browse-courses.enroll') }}">
+                            <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                             <input type="hidden" name="course_id" value="<?= $course->id ?>">
                             <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition text-sm">
                                 Daftar

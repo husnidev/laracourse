@@ -55,4 +55,5 @@ Route::middleware('auth')->group(function () {
     Route::get('students', [StudentController::class, 'index'])->name('students.index');
     // browse courses routes
     Route::get('browse-courses', [BrowseCourseController::class, 'index'])->name('browse-courses.index');
+    Route::post('browse-courses/enroll', [BrowseCourseController::class, 'enroll'])->name('browse-courses.enroll');
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Enrollment;
 
 class BrowseCourseController extends Controller
 {
@@ -37,5 +38,27 @@ class BrowseCourseController extends Controller
                 ->toArray() : [];
 
         return view('browse-courses.index', compact('courses', 'categories', 'search', 'category_filter', 'enrolled_ids'));
+    }
+    
+    public function enroll(Request $request)
+    {
+        $course_id = $request->input('course_id');
+        $student_id = auth()->id();
+
+        // Check if the student is already endrolled
+        $already_enrolled = Enrollment::where('course_id', $course_id)
+            ->where('student_id', $student_id)
+            ->exists();
+
+        if (!$already_enrolled){
+            Enrollment::create([
+                'course_id' => $course_id,
+                'student_id' => $student_id,
+            ]);
+        } else {
+            return back()->with('error', 'Anda sudah terdaftar di kursus ini.');
+        }
+
+        return back()->with('success', 'Berhasil mendaftar kursus.');
     }
 }
