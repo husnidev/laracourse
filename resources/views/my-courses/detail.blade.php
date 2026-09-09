@@ -42,8 +42,8 @@
                 <?php foreach ($modules as $module_index => $module): ?>
                 <?php
                     $module_completed = true;
-                    foreach ($module['lessons'] as $l) {
-                        if (!in_array($l['id'], $completed_lesson_ids)) {
+                    foreach ($lessons as $l) {
+                        if (!in_array($l->id, $completed_lesson_ids)) {
                             $module_completed = false;
                             break;
                         }

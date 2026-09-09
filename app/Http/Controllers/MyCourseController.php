@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\CourseModule;
+use App\Models\Lesson;
+use App\Models\LessonCompletion;
 
 class MyCourseController extends Controller
 {
@@ -61,6 +63,10 @@ class MyCourseController extends Controller
             $lessons = Lesson::where('module_id', $module['id'])->get();
         }
 
-        return view('my-courses.detail', compact('enrollment', 'modules', 'lessons'));
+        $completed_lesson_ids = LessonCompletion::where('student_id', Auth::id())
+            ->pluck('lesson_id')
+            ->all();
+
+        return view('my-courses.detail', compact('enrollment', 'modules', 'lessons', 'completed_lesson_ids'));
     }
 }
