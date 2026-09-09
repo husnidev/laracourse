@@ -56,7 +56,11 @@ class MyCourseController extends Controller
         }
 
         $modules = CourseModule::where('course_id', $course_id)->orderBy('sequence')->get();
+        $lessons = [];
+        foreach ($modules as $module) {
+            $lessons = Lesson::where('module_id', $module['id'])->get();
+        }
 
-        return view('my-courses.detail', compact('enrollment', 'modules'));
+        return view('my-courses.detail', compact('enrollment', 'modules', 'lessons'));
     }
 }

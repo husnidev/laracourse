@@ -64,9 +64,9 @@
                         <?php endif; ?>
                     </div>
 
-                    <?php if (!empty($module['lessons'])): ?>
+                    <?php if (!empty($lessons)): ?>
                     <div class="divide-y divide-gray-200">
-                        <?php foreach ($module['lessons'] as $lesson): ?>
+                        <?php foreach ($lessons as $lesson): ?>
                         <?php $is_completed = in_array($lesson['id'], $completed_lesson_ids); ?>
                         <div class="p-6 <?= $is_completed ? 'bg-green-50/30' : '' ?>">
                             <div class="flex items-start justify-between">
@@ -104,9 +104,9 @@
                                     <p class="text-sm text-gray-500 mb-3"><i class="fas fa-clock mr-1"></i> <?= $lesson['duration'] ?> menit</p>
                                     <?php endif; ?>
 
-                                    <?php if (!empty($lesson['quizzes'])): ?>
+                                    <?php if (!empty($lesson->quizzes)): ?>
                                     <div class="mt-3">
-                                        <?php foreach ($lesson['quizzes'] as $quiz): ?>
+                                        <?php foreach ($lesson->quizzes as $quiz): ?>
                                         <a href="/modules/quiz.php?id=<?= $quiz['id'] ?>" class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-lg text-sm mr-2 mb-2 hover:bg-green-200">
                                             <i class="fas fa-question-circle mr-1"></i>Quiz: <?= $quiz['title'] ?>
                                         </a>
@@ -116,7 +116,7 @@
 
                                     <?php if (!empty($lesson->assignments)): ?>
                                     <div class="mt-3">
-                                        <?php foreach ($lesson['assignments'] as $assignment): ?>
+                                        <?php foreach ($lesson->assignments as $assignment): ?>
                                         <a href="/modules/assignment.php?id=<?= $assignment['id'] ?>" class="inline-block bg-yellow-100 text-yellow-700 px-3 py-1 rounded-lg text-sm mr-2 mb-2 hover:bg-yellow-200">
                                             <i class="fas fa-tasks mr-1"></i>Tugas: <?= $assignment['title'] ?>
                                         </a>
