@@ -199,6 +199,56 @@
     <?php endif; ?>
 
     @if(Auth::user()->role == 'student')
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500">Kursus Diikuti</p>
+                    <p class="text-2xl font-bold text-gray-800"><?= $enrolledCourses ?></p>
+                </div>
+                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-book-reader text-indigo-600 text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500">Selesai</p>
+                    <p class="text-2xl font-bold text-gray-800"><?= $completedCourses ?></p>
+                </div>
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500">Sertifikat</p>
+                    <p class="text-2xl font-bold text-gray-800"><?= $certificates ?></p>
+                </div>
+                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-certificate text-yellow-600 text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500">Rata-rata Progress</p>
+                    <p class="text-2xl font-bold text-gray-800"><?= $avgProgress ?>%</p>
+                </div>
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-chart-line text-purple-600 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
         <h3 class="text-lg font-semibold text-gray-800 mb-4">Kursus Terbaru</h3>
         @if(count($recentCourses) <= 0)
