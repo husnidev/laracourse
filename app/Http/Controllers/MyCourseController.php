@@ -28,4 +28,19 @@ class MyCourseController extends Controller
 
         return view('my-courses.index', compact('myCourses'));
     }
+
+    public function detail($course_id)
+    {
+        if(!$course_id){
+            return redirect()->route('my-courses.index')->with('error', 'Invalid course ID.');
+        }
+
+        $enrollment = DB::table('enrollments')
+            ->select('enrollments.id as enrollment_id', 'enrollments.*', 'enrollments.status as enrollment_status', 'enrollments.progress as enrollment_progress', 'courses.*', 'catgories.name as category_name', 'users.name as teacher_name')
+            ->join('courses', 'enrollments.course_id', '=', 'courses.id')
+            ->leftJoin('categories', 'courses.category_id', '=', 'categories.id')
+            ->leftJoin('users', 'courses.teacher_id', '=', 'users.id')
+            ->where('enrollments.course_id', $course_id)
+            ->get();
+    }
 }

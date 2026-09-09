@@ -27,7 +27,7 @@ class DashboardController extends Controller
                 ->limit(5)
                 ->get();
             $recentEnrollments = DB::table('enrollments as e')
-                ->select('u.id', 'u.name', 'c.id', 'c.title')
+                ->select('u.id', 'u.name', 'c.id', 'c.title as course_name', 'e.enrolled_at')
                 ->join('users as u', 'e.student_id', '=', 'u.id')
                 ->join('courses as c', 'e.course_id', '=', 'c.id')
                 ->orderByDesc('e.enrolled_at')
@@ -55,7 +55,7 @@ class DashboardController extends Controller
                 ->limit(5)
                 ->get(['id', 'title']);
             $recentEnrollments = DB::table('enrollments as e')
-                ->select('u.id', 'u.name', 'c.id', 'c.title')
+                ->select('u.id', 'u.name', 'c.id', 'c.title as course_name', 'e.enrolled_at')
                 ->join('users as u', 'e.student_id', '=', 'u.id')
                 ->join('courses as c', 'e.course_id', '=', 'c.id')
                 ->orderByDesc('e.enrolled_at')
