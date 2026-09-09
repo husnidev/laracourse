@@ -56,7 +56,7 @@
                     <span class="text-xs <?= $course->enrollment_status === 'completed' ? 'text-green-600' : 'text-blue-600' ?>">
                         <?= $course->enrollment_status === 'completed' ? 'Selesai' : 'Sedang Berlangsung' ?>
                     </span>
-                    <a href="/modules/course-detail.php?id=<?= $course->id ?>" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                    <a href="{{ route('my-courses.detail', $course->id ) }}" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
                         Lanjutkan <i class="fas fa-arrow-right ml-1"></i>
                     </a>
                 </div>

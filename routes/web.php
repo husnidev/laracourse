@@ -59,4 +59,5 @@ Route::middleware('auth')->group(function () {
     Route::post('browse-courses/enroll', [BrowseCourseController::class, 'enroll'])->name('browse-courses.enroll');
     // my courses routes
     Route::get('my-courses', [MyCourseController::class, 'index'])->name('my-courses.index');
+    Route::get('my-courses/{course_id}/detail', [MyCourseController::class, 'detail'])->name('my-courses.detail');
 });

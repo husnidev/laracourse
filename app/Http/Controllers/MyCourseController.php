@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\CourseModule;
 
 class MyCourseController extends Controller
 {
@@ -31,16 +33,30 @@ class MyCourseController extends Controller
 
     public function detail($course_id)
     {
-        if(!$course_id){
-            return redirect()->route('my-courses.index')->with('error', 'Invalid course ID.');
+        // check enrollment
+        $enrollment = DB::table('enrollments as e')
+            ->join('courses as c', 'e.course_id', '=', 'c.id')
+            ->leftJoin('categories as cat', 'c.category_id', '=', 'cat.id')
+            ->leftJoin('users as u', 'c.teacher_id', '=', 'u.id')
+            ->where('e.course_id', $course_id)
+            ->where('e.student_id', Auth::id())
+            ->select(
+                'e.id as enrollment_id',
+                'e.*',
+                'e.status as enrollment_status',
+                'e.progress as enrollment_progress',
+                'c.*',
+                'cat.name as category_name',
+                'u.name as teacher_name'
+            )
+            ->first();
+
+        if(!$enrollment){
+            return redirect()->route('my-courses.index')->with('error', 'Anda belum terdaftar di kursus ini. Silakan daftar terlebih dahulu untuk mengakses konten kursus.');
         }
 
-        $enrollment = DB::table('enrollments')
-            ->select('enrollments.id as enrollment_id', 'enrollments.*', 'enrollments.status as enrollment_status', 'enrollments.progress as enrollment_progress', 'courses.*', 'catgories.name as category_name', 'users.name as teacher_name')
-            ->join('courses', 'enrollments.course_id', '=', 'courses.id')
-            ->leftJoin('categories', 'courses.category_id', '=', 'categories.id')
-            ->leftJoin('users', 'courses.teacher_id', '=', 'users.id')
-            ->where('enrollments.course_id', $course_id)
-            ->get();
+        $modules = CourseModule::where('course_id', $course_id)->orderBy('sequence')->get();
+
+        return view('my-courses.detail', compact('enrollment', 'modules'));
     }
 }
