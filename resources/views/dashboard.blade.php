@@ -189,7 +189,7 @@
                             <p class="text-sm font-medium text-gray-700"><?= $enrollment->name ?></p>
                             <p class="text-xs text-gray-500"><?= $enrollment->course_name ?></p>
                         </div>
-                        <span class="text-xs text-gray-400"><?= getTimeAgo($enrollment->enrolled_at) ?></span>
+                        <span class="text-xs text-gray-400"><?= date('d M Y H:i', strtotime($enrollment->enrolled_at)) ?></span>
                     </div>
                     <?php endforeach; ?>
                 </div>
