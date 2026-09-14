@@ -4,10 +4,23 @@
 
 <div class="fade-in">
     <div class="flex items-center space-x-2 text-sm text-gray-500 mb-4">
-        <a href="/modules/my-courses.php" class="hover:text-indigo-600">Kursus Saya</a>
+        <a href="{{ route('my-courses.index') }}" class="hover:text-indigo-600">Kursus Saya</a>
         <i class="fas fa-chevron-right text-xs"></i>
         <span class="text-gray-800"></span>
     </div>
+
+     <?php if(session('success')):?>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <strong class="font-bold">Berhasil! </strong>
+            <span class="block sm:inline">{{ session('success') }}</span>
+        </div>
+    <?php endif ?>
+    <?php if(session('error')):?>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <strong class="font-bold">Error! </strong>
+            <span class="block sm:inline">{{ session('error') }}</span>
+        </div>
+    <?php endif ?>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2">
@@ -132,9 +145,8 @@
                                         <i class="fas fa-check-circle"></i>
                                     </span>
                                     <?php else: ?>
-                                    <form method="POST">
-                                        <input type="hidden" name="complete_lesson" value="1">
-                                        <input type="hidden" name="lesson_id" value="<?= $lesson['id'] ?>">
+                                    <form method="POST" action="{{ route('my-courses.complete_lesson', ['course_id' => $enrollment->id]) }}">
+                                        <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                                         <button type="submit" class="text-gray-400 hover:text-green-600" title="Tandai Selesai">
                                             <i class="far fa-circle text-xl"></i>
                                         </button>

@@ -69,4 +69,99 @@ class MyCourseController extends Controller
 
         return view('my-courses.detail', compact('enrollment', 'modules', 'lessons', 'completed_lesson_ids'));
     }
+
+    public function completeLesson(Request $request, $lesson_id)
+    {
+        $isCompleted = LessonCompletion::where('lesson_id', $lesson_id)
+            ->where('student_id', Auth::id())
+            ->exists();
+
+        if(!$isCompleted){
+            LessonCompletion::create([
+                'lesson_id' => $lesson_id,
+                'student_id' => Auth::id(),
+                'completed_at' => now()
+            ]);
+        }
+
+        //  calculate progress
+        $totalLessons = Lesson::where('module_id', function($query) use ($lesson_id) {
+            $query->select('module_id')
+                ->from('lessons')
+                ->where('id', $lesson_id);
+        })->count();
+
+        $completedLessons = LessonCompletion::where('student_id', Auth::id())
+            ->whereIn('lesson_id', function($query) use ($lesson_id){
+                $query->select('id')
+                    ->from('lessons')
+                    ->where('module_id', function($query) use ($lesson_id) {
+                        $query->select('module_id')
+                            ->from('lessons')
+                            ->where('id', $lesson_id);
+                    });
+        })->count();
+
+        $newProgress = $totalLessons > 0 ? round(($completedLessons / $totalLessons) * 100, 2) : 0;
+
+        // update enrollment progress
+        DB::table('enrollments')
+            ->where('student_id', Auth::id())
+            ->whereIn('course_id', function($query) use ($lesson_id){
+                $query->select('course_id')
+                    ->from('course_modules')
+                    ->whereIn('id', function($query) use ($lesson_id) {
+                        $query->select('module_id')
+                            ->from('lessons')
+                            ->where('id', $lesson_id);
+                    });
+            })
+            ->update(['progress' => $newProgress]);
+
+        if($newProgress >= 100){
+            // check if certificate already exists
+            $isCertificateExists = DB::table('certificates')
+                ->where('student_id', Auth::id())
+                ->whereIn('course_id', function($query) use ($lesson_id){
+                    $query->select('course_id')
+                        ->from('course_modules')
+                        ->whereIn('id', function($query) use ($lesson_id){
+                            $query->select('module_id')
+                            ->from('lessons')
+                            ->where('id', $lesson_id);
+                        });
+                })
+                ->exists();
+
+            if(!$isCertificateExists){
+                // update enrollment status to completed
+                DB::table('enrollments')
+                    ->where('student_id', Auth::id())
+                    ->whereIn('course_id', function($query) use ($lesson_id){
+                        $query->select('course_id')
+                            ->from('course_modules')
+                            ->whereIn('id', function($query) use ($lesson_id){
+                                $query->select('module_id')
+                                ->from('lessons')
+                                ->where('id', $lesson_id);
+                            });
+                    })
+                    ->update(['status' => 'completed']);
+                // generate certificate
+                DB::table('certificates')->insert([
+                    'student_id' => Auth::id(),
+                    'course_id' => DB::table('course_modules')
+                        ->whereIn('id', function($query) use ($lesson_id){
+                            $query->select('module_id')
+                            ->from('lessons')
+                            ->where('id', $lesson_id);
+                        })
+                        ->value('course_id'),
+                    'issued_at' => now()
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Pelajaran telah ditandai sebagai selesai.');
+    }
 }

@@ -60,4 +60,5 @@ Route::middleware('auth')->group(function () {
     // my courses routes
     Route::get('my-courses', [MyCourseController::class, 'index'])->name('my-courses.index');
     Route::get('my-courses/{course_id}/detail', [MyCourseController::class, 'detail'])->name('my-courses.detail');
+    Route::post('my-courses/{course_id}/complete-lesson', [MyCourseController::class, 'completeLesson'])->name('my-courses.complete_lesson');
 });
