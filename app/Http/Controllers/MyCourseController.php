@@ -159,7 +159,7 @@ class MyCourseController extends Controller
                         })
                         ->value('course_id'),
                     'certificate_no' => $certno,
-                    'issued_at' => now()
+                    'issued_date' => now()
                 ]);
             }
         }
