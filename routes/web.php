@@ -13,6 +13,7 @@ use App\Http\Controllers\ManageQuizController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\BrowseCourseController;
 use App\Http\Controllers\MyCourseController;
+use App\Http\Controllers\MyCertificateController;
 
 Route::get('/login', function(){
     return view('login');
@@ -61,4 +62,6 @@ Route::middleware('auth')->group(function () {
     Route::get('my-courses', [MyCourseController::class, 'index'])->name('my-courses.index');
     Route::get('my-courses/{course_id}/detail', [MyCourseController::class, 'detail'])->name('my-courses.detail');
     Route::post('my-courses/{lesson_id}/complete-lesson', [MyCourseController::class, 'completeLesson'])->name('my-courses.complete_lesson');
+    //my certificates routes
+    Route::get('my-certificates', [MyCertificateController::class, 'index'])->name('my-certificates.index');
 });

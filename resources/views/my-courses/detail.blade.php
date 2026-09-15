@@ -185,7 +185,7 @@
                 <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center mb-4">
                     <i class="fas fa-trophy text-green-500 text-3xl mb-2"></i>
                     <p class="text-green-700 font-medium">Kursus Selesai!</p>
-                    <a href="/modules/my-certificates.php" class="text-green-600 text-sm hover:underline">Lihat Sertifikat</a>
+                    <a href="{{ route('my-certificates.index') }}" class="text-green-600 text-sm hover:underline">Lihat Sertifikat</a>
                 </div>
                 <?php endif; ?>
 
