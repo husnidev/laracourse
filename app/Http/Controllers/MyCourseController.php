@@ -147,6 +147,7 @@ class MyCourseController extends Controller
                             });
                     })
                     ->update(['status' => 'completed']);
+                $certno = 'CERT-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -6));
                 // generate certificate
                 DB::table('certificates')->insert([
                     'student_id' => Auth::id(),
@@ -157,6 +158,7 @@ class MyCourseController extends Controller
                             ->where('id', $lesson_id);
                         })
                         ->value('course_id'),
+                    'certificate_no' => $certno,
                     'issued_at' => now()
                 ]);
             }
