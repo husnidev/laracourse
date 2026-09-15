@@ -145,7 +145,7 @@
                                         <i class="fas fa-check-circle"></i>
                                     </span>
                                     <?php else: ?>
-                                    <form method="POST" action="{{ route('my-courses.complete_lesson', ['course_id' => $enrollment->id]) }}">
+                                    <form method="POST" action="{{ route('my-courses.complete_lesson', ['lesson_id' => $lesson->id]) }}">
                                         <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                                         <button type="submit" class="text-gray-400 hover:text-green-600" title="Tandai Selesai">
                                             <i class="far fa-circle text-xl"></i>
