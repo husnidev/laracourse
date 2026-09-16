@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\Table;
 class Certificate extends Model
 {
     public $timestamps = false;
-    public $fillable = ['course_id', 'student_id', 'certificate_no', 'issued_date', 'file'];
+    public $fillable = ['course_id', 'student_id', 'certificate_no', 'issue_date', 'file'];
 
     public function student()
     {

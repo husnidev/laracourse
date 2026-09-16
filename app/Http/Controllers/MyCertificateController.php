@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class MyCertificateController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $certificates = DB::table('certificates as cert')
             ->select('cert.*', 'c.title as course_title', 'c.slug as course_slug',
             'cat.name as category_name', 'u.name as teacher_name')
@@ -19,7 +19,7 @@ class MyCertificateController extends Controller
             ->orderBy('cert.issue_date', 'desc')
             ->get();
 
-            $cert_id = $request->id ?? '';
+            $cert_id = $request->cert_id ?? '';
             $cert_detail = DB::table('certificates as cert')
             ->select('cert.*', 'c.title as course_title', 'c.description as course_desc',
             'cat.name as category_name', 'u.name as teacher_name', 's.name as student_name', 's.email as student_email')
