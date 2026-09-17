@@ -70,7 +70,7 @@
         <div class="p-6 border-b border-gray-200 flex justify-between items-center">
             <h3 class="text-lg font-semibold text-gray-800">Sertifikat Penyelesaian</h3>
             <div class="flex items-center space-x-3">
-                <a href="/modules/download-cert.php?id=<?= $cert_detail->id ?>" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm">
+                <a href="{{ route('my-certificates.download', ['cert_id' => $cert_detail->id]) }}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition text-sm">
                     <i class="fas fa-download mr-1"></i>Download PDF
                 </a>
                 <button onclick="hideModal('certModal')" class="text-gray-400 hover:text-gray-600">

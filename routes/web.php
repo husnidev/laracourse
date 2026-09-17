@@ -64,4 +64,5 @@ Route::middleware('auth')->group(function () {
     Route::post('my-courses/{lesson_id}/complete-lesson', [MyCourseController::class, 'completeLesson'])->name('my-courses.complete_lesson');
     //my certificates routes
     Route::get('my-certificates', [MyCertificateController::class, 'index'])->name('my-certificates.index');
+    Route::get('my-certificates/{cert_id}/download', [MyCertificateController::class, 'download'])->name('my-certificates.download');
 });

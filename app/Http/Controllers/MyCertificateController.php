@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class MyCertificateController extends Controller
 {
@@ -19,8 +20,8 @@ class MyCertificateController extends Controller
             ->orderBy('cert.issue_date', 'desc')
             ->get();
 
-            $cert_id = $request->cert_id ?? '';
-            $cert_detail = DB::table('certificates as cert')
+        $cert_id = $request->cert_id ?? '';
+        $cert_detail = DB::table('certificates as cert')
             ->select('cert.*', 'c.title as course_title', 'c.description as course_desc',
             'cat.name as category_name', 'u.name as teacher_name', 's.name as student_name', 's.email as student_email')
             ->join('courses as c', 'cert.course_id', '=', 'c.id')
@@ -33,8 +34,28 @@ class MyCertificateController extends Controller
             ])
             ->first();
 
-            return view('my-certificates.index', compact('certificates', 'cert_detail'));
+        return view('my-certificates.index', compact('certificates', 'cert_detail'));
 
     }
+
+    public function download($cert_id){
+        $cert = DB::table('certificates as cert')
+            ->select('cert.*', 'c.title as course_title', 'c.description as course_desc',
+            'cat.name as category_name', 'u.name as teacher_name', 's.name as student_name', 's.email as student_email')
+            ->join('courses as c', 'cert.course_id', '=', 'c.id')
+            ->join('users as s', 'cert.student_id', '=', 's.id')
+            ->leftJoin('categories as cat', 'c.category_id', '=', 'cat.id')
+            ->leftJoin('users as u', 'c.teacher_id', '=', 'u.id')
+            ->where([
+                'cert.id' => $cert_id,
+                'cert.student_id' => Auth::id()
+            ])
+            ->first();
+        $certno = 'CERT-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -6));
+
+        $pdf = Pdf::loadView('cert_pdf', ['cert' => $cert])->setPaper('a4', 'Landscape');
+        return $pdf->download($certno . '.pdf');
+    }
+
 
 }
