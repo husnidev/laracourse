@@ -17,6 +17,12 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+            if(Auth::user()->status !== 'active'){
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'Akun Anda tidak aktif. Silakan hubungi administrator.',
+                ])->onlyInput('email');
+            }
             $request->session()->regenerate();
 
             return redirect('/');
